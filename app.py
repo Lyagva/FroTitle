@@ -21,7 +21,9 @@ MODULES_DIR = './modules'
 @app.route('/program')
 def program():
     modules = []
-    for module_name in os.listdir(MODULES_DIR):
+    modules_list = [i.replace("\n", "") for i in open("modules/enabled_modules.txt", mode="r+").readlines()]
+
+    for module_name in modules_list:
         module_path = os.path.join(MODULES_DIR, module_name)
         if os.path.isdir(module_path):
             modules.append(module_name)
@@ -50,7 +52,9 @@ def module_loader():
 def control():
     # Read all modules' public configurations
     modules_config = {}
-    for module_name in os.listdir(MODULES_DIR):
+    modules_list = [i.replace("\n", "") for i in open("modules/enabled_modules.txt", mode="r+").readlines()]
+
+    for module_name in modules_list:
         module_path = os.path.join(MODULES_DIR, module_name, 'module.json')
         if os.path.isfile(module_path):
             with open(module_path, 'r') as file:

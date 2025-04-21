@@ -1,20 +1,22 @@
 body {
-  background-color: rgba(0, 0, 0, 0);
-  width: 1920px;
-  height: 1080px;
-  margin: 0;
+    background-color: rgba(0, 0, 0, 0);
+    width: 1920px;
+    height: 1080px;
+    margin: 0;
+    top: 0;
+    left: 0;
 }
 
 #title {
-  background-color: #333;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  color: white;
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    color: white;
 }
 
 #titleText {
-  font-size: 36px;
+    font-size: 36px;
 }

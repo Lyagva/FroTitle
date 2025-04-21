@@ -1,0 +1,36 @@
+{
+  "animations": [
+    {
+      "id": "start",
+      "name": "Start Countdown"
+    }
+  ],
+  "fields": [
+    {
+      "id": "finalText",
+      "name": "Final text",
+      "type": "text",
+      "default": "GO!"
+    }
+  ],
+  "properties": [
+    {
+      "id": "n",
+      "name": "Amount",
+      "type": "number",
+      "default": 3
+    },
+    {
+      "id": "time",
+      "name": "Number time",
+      "type": "number",
+      "default": 1.5
+    },
+    {
+      "id": "finalTime",
+      "name": "Final time",
+      "type": "number",
+      "default": 2
+    }
+  ]
+}
