@@ -1,0 +1,28 @@
+{
+  "animations": [
+    {
+      "id": "redColor",
+      "name": "Red Color"
+    },
+    {
+      "id": "blueColor",
+      "name": "Blue Color"
+    }
+  ],
+  "fields": [
+    {
+      "id": "titleText",
+      "name": "Title Text",
+      "type": "text",
+      "default": "Sample Title"
+    }
+  ],
+  "properties": [
+    {
+      "id": "fontSize",
+      "name": "Title Font Size",
+      "type": "number",
+      "default": 36
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Panel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Control Panel</h1>
+
+  {% for module_name, config in modules_config.items() %}
+    <div class="module-config">
+      <h2>{{ module_name }}</h2>
+
+      <h3>Animations</h3>
+      {% for animation in config['animations'] %}
+        <button onclick="triggerAnimation(this)"
+                data-module="{{ module_name }}"
+                data-id="{{ animation['id'] }}">
+          {{ animation['name'] }}
+        </button>
+      {% endfor %}
+
+      <h3>Fields</h3>
+      {% for field in config['fields'] %}
+        <label for="{{ field['id'] }}">{{ field['name'] }}:</label>
+        <input
+          type="text"
+          value="{{ field['default'] }}"
+          data-module="{{ module_name }}"
+          data-id="{{ field['id'] }}"
+          oninput="updateField(this)">
+      {% endfor %}
+
+      <h3>Config</h3>
+      {% for property in config['properties'] %}
+        <label for="{{ property['name'] }}">{{ property['name'] }}:</label>
+        <input type="{{ property['type'] }}"
+               data-module="{{ module_name }}"
+               data-id="{{ property['id'] }}"
+               value="{{ property['default'] }}" oninput="updateProperty(this)">
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+  <script>
+    var socket = io.connect('http://localhost:5000');
+
+    // Trigger animation on button click
+    function triggerAnimation(button) {
+      var moduleId = button.getAttribute('data-module');
+      var id = button.getAttribute('data-id');
+      socket.emit('triggerAnimation', { moduleId: moduleId, id: id });
+      console.log("trigger animation");
+    }
+
+    // Update the field value on blur (focus lost)
+    function updateField(input) {
+      var moduleId = input.getAttribute('data-module');
+      var id = input.getAttribute('data-id');
+      const value = input.value;
+      socket.emit('updateField', { moduleId: moduleId, id: id, value: value });
+      console.log("updated field");
+    }
+
+    // Update configuration on input change
+    function updateProperty(input) {
+      var moduleId = input.getAttribute('data-module');
+      var id = input.getAttribute('data-id');
+      const value = input.value;
+      socket.emit('updateProperty', { moduleId: moduleId, id: id, value: value });
+      console.log("updated config");
+    }
+  </script>
+</body>
+</html>
