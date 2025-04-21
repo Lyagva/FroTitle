@@ -1,0 +1,56 @@
+{
+  "animations": [
+    {
+      "id": "typing",
+      "name": "Type"
+    },
+    {
+      "id": "glitch",
+      "name": "Glitch"
+    },
+    {
+      "id": "deleting",
+      "name": "Delete"
+    }
+  ],
+  "fields": [
+    {
+      "id": "baseText",
+      "name": "Starting Text",
+      "type": "text",
+      "default": "ЛЯГУШКА ЖАБКИНСОН"
+    },
+    {
+      "id": "nextText",
+      "name": "Text to switch to",
+      "type": "text",
+      "default": "О, ПРИВЕТ!"
+    }
+  ],
+  "properties": [
+    {
+      "id": "fontSize",
+      "name": "Font Size (pt)",
+      "type": "number",
+      "default": 48
+    },
+    {
+      "id": "typingSpeed",
+      "name": "Typing speed (ms)",
+      "type": "number",
+      "default": 100
+    },
+    {
+      "id": "glitchDuration",
+      "name": "Glitch Duration (sec)",
+      "type": "number",
+      "default": 1.5
+    },
+    {
+      "id": "glitchChar",
+      "name": "Glitch Charset",
+      "type": "text",
+      "default": "!@#$%^&*()_+-=[]{}|;:',.<>/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    }
+  ]
+}

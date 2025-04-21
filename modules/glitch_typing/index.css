@@ -1,0 +1,17 @@
+body {
+    background: rgba(0, 0, 0, 0);
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    width: 1920px;
+    height: 1080px;
+    position: absolute;
+}
+
+#title {
+    font-size: 48pt;
+    white-space: pre;
+    letter-spacing: 1px;
+    position: absolute;
+    left: 96px;
+    bottom: 54px;
+}
