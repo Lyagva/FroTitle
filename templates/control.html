@@ -26,7 +26,7 @@
       {% for field in config['fields'] %}
         <label for="{{ field['id'] }}">{{ field['name'] }}:</label>
         <input
-          type="text"
+          type="{{ field['type'] }}"
           value="{{ field['default'] }}"
           data-module="{{ module_name }}"
           data-id="{{ field['id'] }}"

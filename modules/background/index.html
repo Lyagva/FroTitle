@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background: rgba(0, 0, 0, 0);
+            width: 1920px;
+            height: 1080px;
+            margin: 0;
+            position: relative;
+        }
+        .background {
+            position: absolute;
+            width: 1920px;
+            height: 1080px;
+            background: white;
+            opacity: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script src="/module_loader"></script>
+    <script>
+        function field_color(value) {
+            document.querySelector(".background").style.backgroundColor = value;
+        }
+        function field_opacity(value) {
+            document.querySelector(".background").style.opacity = value.toString() + "%";
+        }
+        function anim_toggleVisibility() {
+            document.body.classList.toggle('visible');
+        }
+
+        setModuleID("background");
+        attach_animation_function("toggleVisibility", anim_toggleVisibility);
+        attach_field_function("opacity", field_opacity);
+        attach_field_function("color", field_color);
+    </script>
+</body>
+</html>

@@ -1,2 +1,4 @@
+background
 flying_countdown
 glitch_typing
+safe_area

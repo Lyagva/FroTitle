@@ -1,0 +1,12 @@
+{
+  "animations": [
+    {
+      "id": "toggleVisibility",
+      "name": "Toggle visibility"
+    }
+  ],
+  "fields": [
+  ],
+  "properties": [
+  ]
+}

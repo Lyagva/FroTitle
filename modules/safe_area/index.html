@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Safe Zones</title>
+    <style>
+        body {
+            background: rgba(0, 0, 0, 0);
+            width: 1920px;
+            height: 1080px;
+            margin: 0;
+            position: relative;
+        }
+        .zone {
+            position: absolute;
+            background: rgba(0, 0, 0, 0);
+            box-sizing: border-box;
+        }
+        .safe_action {
+            border: 1px dashed green;
+            top: 3.5%;
+            left: 3.5%;
+            right: 3.5%;
+            bottom: 3.5%;
+        }
+        .safe_graphics {
+            border: 1px dotted red;
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+        }
+        .center_line {
+            position: absolute;
+            background: white;
+            z-index: 1;
+        }
+        .vertical_line {
+            left: 50%;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            margin-left: -1px;
+        }
+        .horizontal_line {
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            margin-top: -1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="safe_graphics zone"></div>
+    <div class="safe_action zone"></div>
+    <div class="center_line vertical_line"></div>
+    <div class="center_line horizontal_line"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script src="/module_loader"></script>
+<script>
+    let visible = true;
+    function anim_toggleVisibility() {
+        visible = !visible;
+        if (visible) {
+            document.querySelector('body').style.visibility = 'visible';
+            return;
+        }
+            document.querySelector('body').style.visibility = 'hidden';
+    }
+
+    setModuleID("safe_area");
+    attach_animation_function("toggleVisibility", anim_toggleVisibility);
+</script>
+</body>
+</html>
