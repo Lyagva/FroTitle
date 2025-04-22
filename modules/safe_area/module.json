@@ -8,5 +8,11 @@
   "fields": [
   ],
   "properties": [
+    {
+      "id": "thickness",
+      "name": "Line Thickness",
+      "type": "number",
+      "default": 1
+    }
   ]
 }

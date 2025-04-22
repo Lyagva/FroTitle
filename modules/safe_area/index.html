@@ -33,6 +33,7 @@
         .center_line {
             position: absolute;
             background: white;
+            border: 1px solid black;
             z-index: 1;
         }
         .vertical_line {
@@ -40,8 +41,6 @@
             top: 0;
             width: 1px;
             height: 100%;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
             margin-left: -1px;
         }
         .horizontal_line {
@@ -49,8 +48,6 @@
             left: 0;
             width: 100%;
             height: 1px;
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
             margin-top: -1px;
         }
     </style>
@@ -75,9 +72,14 @@
         }
             document.querySelector('body').style.visibility = 'hidden';
     }
+    function property_thickness(value) {
+        document.querySelector(".safe_action").style.borderWidth = value.toString() + "px";
+        document.querySelector(".safe_graphics").style.borderWidth = value.toString() + "px";
+    }
 
     setModuleID("safe_area");
     attach_animation_function("toggleVisibility", anim_toggleVisibility);
+    attach_property_function("thickness", property_thickness);
 </script>
 </body>
 </html>

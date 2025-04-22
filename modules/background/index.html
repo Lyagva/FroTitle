@@ -27,6 +27,7 @@
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <script src="/module_loader"></script>
     <script>
+        let visible = true;
         function field_color(value) {
             document.querySelector(".background").style.backgroundColor = value;
         }
@@ -34,7 +35,9 @@
             document.querySelector(".background").style.opacity = value.toString() + "%";
         }
         function anim_toggleVisibility() {
-            document.body.classList.toggle('visible');
+            visible = !visible;
+            if (visible) document.querySelector(".background").style.visibility = "visible";
+            else document.querySelector(".background").style.visibility = "hidden";
         }
 
         setModuleID("background");
