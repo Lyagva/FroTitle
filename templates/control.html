@@ -5,14 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control Panel</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <style>
+        body {
+            background-color: #1e1e2f;
+            color: #ddd;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+
         #midi-popup {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #333;
+            background: #444;
             color: white;
             padding: 10px 20px;
             border-radius: 8px;
@@ -20,55 +33,163 @@
             z-index: 1000;
             display: none;
         }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: start;
+        }
+
+        .module-config {
+            background-color: #2c2c3e;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 200px;
+        }
+
+        .module-config h2,
+        .module-config h3 {
+            text-align: center;
+            margin: 0;
+            color: #fff;
+        }
+
+        .animation-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 6px 0 2px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="color"] {
+            background-color: #3b3b52;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            padding: 6px 10px;
+            display: inline-block;
+            width: auto;
+            min-width: 60px;
+            max-width: 100%;
+            transition: width 0.3s ease;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #555;
+            margin: 40px 0;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
     </style>
+
+
 </head>
 <body>
 <h1>Control Panel</h1>
 <div id="midi-popup">Press a MIDI button to map...</div>
-<p>Press right mouse button on animation button to start mapping it to midi key (supports mapping multiple ones).<br/>
-Press middle mouse button on animation button to clear all mapping</p>
+<p style="text-align: center;">
+    Right-click an animation button to map it to a MIDI key.<br>
+    Middle-click to clear mappings.
+</p>
+
+<div class="grid" id="modules-grid">
+    {% for module_name, config in modules_config.items() %}
+    <div class="module-config">
+        <h2>{{ module_name }}</h2>
+
+        <h3>Animations</h3>
+        <div class="animation-buttons">
+            {% for animation in config['animations'] %}
+            <button onclick="triggerAnimation(this)"
+                    data-module="{{ module_name }}"
+                    data-id="{{ animation['id'] }}">
+                {{ animation['name'] }}
+            </button>
+            {% endfor %}
+        </div>
 
 
-{% for module_name, config in modules_config.items() %}
-<div class="module-config">
-    <h2>{{ module_name }}</h2>
+        <h3>Fields</h3>
+        {% for field in config['fields'] %}
+        <label for="{{ field['id'] }}">{{ field['name'] }}:</label>
+        <input
+                type="{{ field['type'] }}"
+                value="{{ field['default'] }}"
+                data-module="{{ module_name }}"
+                data-id="{{ field['id'] }}"
+                oninput="updateField(this)">
+        {% endfor %}
 
-    <h3>Animations</h3>
-    {% for animation in config['animations'] %}
-    <button onclick="triggerAnimation(this)"
-            data-module="{{ module_name }}"
-            data-id="{{ animation['id'] }}">
-        {{ animation['name'] }}
-    </button>
-    {% endfor %}
-
-    <h3>Fields</h3>
-    {% for field in config['fields'] %}
-    <label for="{{ field['id'] }}">{{ field['name'] }}:</label>
-    <input
-            type="{{ field['type'] }}"
-            value="{{ field['default'] }}"
-            data-module="{{ module_name }}"
-            data-id="{{ field['id'] }}"
-            oninput="updateField(this)">
-    {% endfor %}
-
-    <h3>Config</h3>
-    {% for property in config['properties'] %}
-    <label for="{{ property['name'] }}">{{ property['name'] }}:</label>
-    <input type="{{ property['type'] }}"
-           data-module="{{ module_name }}"
-           data-id="{{ property['id'] }}"
-           value="{{ property['default'] }}" oninput="updateProperty(this)">
+        <h3>Config</h3>
+        {% for property in config['properties'] %}
+        <label for="{{ property['name'] }}">{{ property['name'] }}:</label>
+        <input type="{{ property['type'] }}"
+               data-module="{{ module_name }}"
+               data-id="{{ property['id'] }}"
+               value="{{ property['default'] }}" oninput="updateProperty(this)">
+        {% endfor %}
+    </div>
     {% endfor %}
 </div>
-<hr/>
-{% endfor %}
+
+<script>
+    // Auto resize input fields based on content
+    document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+        const resize = () => {
+            const tempSpan = document.createElement("span");
+            tempSpan.style.visibility = "hidden";
+            tempSpan.style.whiteSpace = "pre";
+            tempSpan.style.font = window.getComputedStyle(input).font;
+            tempSpan.textContent = input.value || input.placeholder || "";
+            document.body.appendChild(tempSpan);
+            input.style.width = (tempSpan.offsetWidth + 20) + "px";
+            document.body.removeChild(tempSpan);
+        };
+
+        input.addEventListener("input", resize);
+        resize();
+    });
+</script>
+
 
 <script>
     var socket = io.connect('http://localhost:5000');
 
-    // Trigger animation on button click
     function triggerAnimation(button) {
         var moduleId = button.getAttribute('data-module');
         var id = button.getAttribute('data-id');
@@ -76,7 +197,6 @@ Press middle mouse button on animation button to clear all mapping</p>
         console.log("trigger animation");
     }
 
-    // Update the field value on blur (focus lost)
     function updateField(input) {
         var moduleId = input.getAttribute('data-module');
         var id = input.getAttribute('data-id');
@@ -85,7 +205,6 @@ Press middle mouse button on animation button to clear all mapping</p>
         console.log("updated field");
     }
 
-    // Update configuration on input change
     function updateProperty(input) {
         var moduleId = input.getAttribute('data-module');
         var id = input.getAttribute('data-id');
@@ -93,7 +212,14 @@ Press middle mouse button on animation button to clear all mapping</p>
         socket.emit('updateProperty', {moduleId: moduleId, id: id, value: value});
         console.log("updated config");
     }
+
+    // Drag & Drop support using SortableJS
+    new Sortable(document.getElementById('modules-grid'), {
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+    });
 </script>
+
 <script>
     let midiMap = {};
     let currentlyMappingButton = null;
@@ -131,7 +257,6 @@ Press middle mouse button on animation button to clear all mapping</p>
         }
     }
 
-
     function showMIDIPopup() {
         document.getElementById('midi-popup').style.display = 'block';
     }
@@ -149,12 +274,10 @@ Press middle mouse button on animation button to clear all mapping</p>
     });
 
     document.addEventListener("mousedown", function (e) {
-        // Middle Mouse Button = 1
         if (e.button === 1 && e.target.tagName === "BUTTON" && e.target.dataset.id) {
             e.preventDefault();
             const button = e.target;
 
-            // Remove all MIDI mappings for this button
             for (const key in midiMap) {
                 if (midiMap[key] === button) {
                     delete midiMap[key];
@@ -162,13 +285,10 @@ Press middle mouse button on animation button to clear all mapping</p>
                 }
             }
 
-            // Clean up the label (remove [MIDI])
             button.textContent = button.textContent.replace(/\s*\[MIDI\]/g, "");
         }
     });
-
 </script>
-
 
 </body>
 </html>
