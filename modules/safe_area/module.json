@@ -1,8 +1,17 @@
 {
   "animations": [
     {
-      "id": "toggleVisibility",
-      "name": "Toggle visibility"
+      "id": "toggleSafe",
+      "name": "Toggle Safe Area"
+    },
+    {
+      "id": "toggleCenter",
+      "name": "Toggle Center Cross"
+
+    },
+    {
+      "id": "toggleThirds",
+      "name": "Toggle Thirds"
     }
   ],
   "fields": [
@@ -13,6 +22,18 @@
       "name": "Line Thickness",
       "type": "number",
       "default": 1
+    },
+    {
+      "id": "centerColor",
+      "name": "Center Cross Colors",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "id": "thirdsColor",
+      "name": "Thirds Colors",
+      "type": "color",
+      "default": "#888888"
     }
   ]
 }
