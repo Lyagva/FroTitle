@@ -69,11 +69,50 @@ def handle_trigger(data):
 
 @socketio.on('updateField')
 def handle_update_field(data):
+    moduleId = data['moduleId']
+    fieldId = data['id']
+    value = data['value']
+
+    try:
+        config = json.load(open(f"./modules/{moduleId}/module.json", "r", encoding="UTF-8"))
+        for i in range(len(config['fields'])):
+            if fieldId == config['fields'][i]['id']:
+                if config['fields'][i]['type'] == "number":
+                    if value == "":
+                        value = "0"
+                    value = int(value)
+
+                config['fields'][i]['default'] = value
+        json.dump(config, open(f"./modules/{moduleId}/module.json", "w", encoding="UTF-8"), indent=4)
+    except Exception as e:
+        print(e)
+        print("Error probably appears due to too fast update of configuration")
+
     emit(f'updateField', data, broadcast=True)
 
 
 @socketio.on('updateProperty')
 def handle_update_property(data):
+    moduleId = data['moduleId']
+    property_id = data['id']
+    value = data['value']
+
+    try:
+        config = json.load(open(f"./modules/{moduleId}/module.json", "r", encoding="UTF-8"))
+        for i in range(len(config['properties'])):
+            if property_id == config['properties'][i]['id']:
+                if config['properties'][i]['type'] == "number":
+                    if value == "":
+                        value = "0"
+                    value = int(value)
+
+                config['properties'][i]['default'] = value
+
+        json.dump(config, open(f"./modules/{moduleId}/module.json", "w", encoding="UTF-8"), indent=4)
+    except Exception as e:
+        print(e)
+        print("Error probably appears due to too fast update of configuration")
+
     emit(f'updateProperty', data, broadcast=True)
 
 

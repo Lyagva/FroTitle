@@ -1,24 +1,23 @@
 {
-  "animations": [
-    {
-      "id": "toggleVisibility",
-      "name": "Toggle visibility"
-    }
-  ],
-  "fields": [
-    {
-      "id": "color",
-      "name": "Color",
-      "type": "color",
-      "default": "#ffffff"
-    },
-    {
-      "id": "opacity",
-      "name": "Opacity",
-      "type": "number",
-      "default": 100
-    }
-  ],
-  "properties": [
-  ]
+    "animations": [
+        {
+            "id": "toggleVisibility",
+            "name": "Toggle visibility"
+        }
+    ],
+    "fields": [
+        {
+            "id": "color",
+            "name": "Color",
+            "type": "color",
+            "default": "#000000"
+        },
+        {
+            "id": "opacity",
+            "name": "Opacity",
+            "type": "number",
+            "default": 75
+        }
+    ],
+    "properties": []
 }

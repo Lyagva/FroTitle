@@ -1,39 +1,37 @@
 {
-  "animations": [
-    {
-      "id": "toggleSafe",
-      "name": "Toggle Safe Area"
-    },
-    {
-      "id": "toggleCenter",
-      "name": "Toggle Center Cross"
-
-    },
-    {
-      "id": "toggleThirds",
-      "name": "Toggle Thirds"
-    }
-  ],
-  "fields": [
-  ],
-  "properties": [
-    {
-      "id": "thickness",
-      "name": "Line Thickness",
-      "type": "number",
-      "default": 1
-    },
-    {
-      "id": "centerColor",
-      "name": "Center Cross Colors",
-      "type": "color",
-      "default": "#ffffff"
-    },
-    {
-      "id": "thirdsColor",
-      "name": "Thirds Colors",
-      "type": "color",
-      "default": "#888888"
-    }
-  ]
+    "animations": [
+        {
+            "id": "toggleSafe",
+            "name": "Toggle Safe Area"
+        },
+        {
+            "id": "toggleCenter",
+            "name": "Toggle Center Cross"
+        },
+        {
+            "id": "toggleThirds",
+            "name": "Toggle Thirds"
+        }
+    ],
+    "fields": [],
+    "properties": [
+        {
+            "id": "thickness",
+            "name": "Line Thickness",
+            "type": "number",
+            "default": 4
+        },
+        {
+            "id": "centerColor",
+            "name": "Center Cross Colors",
+            "type": "color",
+            "default": "#030303"
+        },
+        {
+            "id": "thirdsColor",
+            "name": "Thirds Colors",
+            "type": "color",
+            "default": "#0f161f"
+        }
+    ]
 }
